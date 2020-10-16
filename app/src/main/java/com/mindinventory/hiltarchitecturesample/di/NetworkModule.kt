@@ -18,7 +18,9 @@ import javax.inject.Singleton
 @InstallIn(ApplicationComponent::class)
 class NetworkModule {
 
-    private val HTTP_REQUEST_TIMEOUT = 2L
+    companion object {
+        private const val HTTP_REQUEST_TIMEOUT = 2L
+    }
 
     @Singleton
     @Provides
