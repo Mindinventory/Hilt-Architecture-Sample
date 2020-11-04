@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mindinventory.hiltarchitecturesample.R
-import com.mindinventory.hiltarchitecturesample.data.entity.ResponseUsers
+import com.mindinventory.hiltarchitecturesample.data.entity.User
 import com.mindinventory.hiltarchitecturesample.ui.adapter.UsersAdapter
 import com.mindinventory.hiltarchitecturesample.ui.common.Resource
 import com.mindinventory.hiltarchitecturesample.ui.common.Status
@@ -19,8 +20,8 @@ import kotlinx.android.synthetic.main.fragment_users.*
 @AndroidEntryPoint
 class UsersFragment : Fragment() {
 
-    private val viewModel : UserViewModel by viewModels { defaultViewModelProviderFactory }
-    private var usersAdapter : UsersAdapter?= null
+    private val viewModel: UserViewModel by viewModels { defaultViewModelProviderFactory }
+    private var usersAdapter: UsersAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,21 +45,18 @@ class UsersFragment : Fragment() {
 
     }
 
-    private fun handleUsers(response : Resource<ResponseUsers>)
-    {
-        when(response.status)
-        {
+    private fun handleUsers(response: Resource<ArrayList<User>>) {
+        when (response.status) {
             Status.LOADING -> {
                 viewProgress.show()
             }
             Status.SUCCESS -> {
                 viewProgress.hide()
-                usersAdapter?.updateItems(response.data?.users)
+                usersAdapter?.updateItems(response.data)
             }
             Status.ERROR -> {
                 viewProgress.hide()
             }
         }
     }
-
 }
