@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.mindinventory.hiltarchitecturesample.data.entity.ResponseUsers
+import com.mindinventory.hiltarchitecturesample.data.entity.User
 import com.mindinventory.hiltarchitecturesample.domain.UserRepository
 import com.mindinventory.hiltarchitecturesample.ui.common.Resource
 import com.mindinventory.hiltarchitecturesample.ui.common.Status
@@ -16,10 +17,12 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 // Constructor-injected
 class UserViewModel @ViewModelInject constructor
-    (private val userRepository: UserRepository,
-    @Assisted private val savedStateHandle: SavedStateHandle) : ViewModel(), LifecycleObserver {
+    (
+    private val userRepository: UserRepository,
+    @Assisted private val savedStateHandle: SavedStateHandle
+) : ViewModel(), LifecycleObserver {
 
-    val usersEvent = MutableLiveData<Resource<ResponseUsers>>()
+    val usersEvent = MutableLiveData<Resource<ArrayList<User>>>()
 
     private val compositeDisposable = CompositeDisposable()
     private fun Disposable.collect() = compositeDisposable.add(this)
@@ -33,7 +36,7 @@ class UserViewModel @ViewModelInject constructor
                 usersEvent.postValue(Resource(Status.LOADING))
             }
             .subscribe({
-                usersEvent.postValue(Resource(Status.SUCCESS, it))
+                usersEvent.postValue(Resource(Status.SUCCESS, it.users))
             }, {
                 usersEvent.postValue(Resource(Status.ERROR, throwable = it))
             })

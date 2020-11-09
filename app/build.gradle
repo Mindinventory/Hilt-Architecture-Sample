@@ -36,6 +36,14 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -76,5 +84,13 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+
+    //unittest
+    testImplementation 'org.mockito:mockito-core:2.23.0'
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0'
+    testImplementation 'org.mockito:mockito-inline:2.19.0'
+    testImplementation 'android.arch.core:core-testing:1.1.1'
+    testImplementation 'com.github.fabioCollini.daggermock:daggermock-kotlin:0.8.5'
+    testImplementation 'io.kotlintest:kotlintest-runner-junit5:3.3.2'
 
 }
